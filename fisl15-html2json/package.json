@@ -1,0 +1,15 @@
+{
+  "name": "fisl15-html2json",
+  "version": "0.0.0",
+  "description": "get latest version of the schedule from FISL15 website and generates a structured data json file",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Fabricio C Zuardi",
+  "license": "MIT",
+  "devDependencies": {
+    "nom": "0.0.3",
+    "zpad": "^0.5.0"
+  }
+}
