@@ -18,3 +18,9 @@ Edit the index.js file to toggle between offline and online.
 ```
 node index.js
 ```
+
+Or to write a file with the resulting JSON:
+
+```
+node index.js -o your_output_file_path.json
+```

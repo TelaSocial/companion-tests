@@ -2,6 +2,7 @@
 var nom = require('nom'),
     cheerio = require('nom/node_modules/cheerio'),
     zpad = require('zpad'),
+    stdio = require('stdio'),
     fs = require('fs');
 
 //config
@@ -12,6 +13,16 @@ var HTML_URL = "http://papers.softwarelivre.org/papers_ng/public/new_grid?day=7"
     // ONLINE = false;
     ONLINE = true;
 
+//command line options
+var options = stdio.getopt({
+    'output': {key: 'o', description: 'Output file to write with the resulting JSON', args: 1},
+    'help': {key: 'h', description: 'Help'}
+});
+if (options.help){
+    options.printHelp();
+    process.exit(0);
+}
+
 //global vars
 var schedule = {
         days: {}
@@ -20,7 +31,12 @@ var schedule = {
 
 //helpers
 function finished(){
-    console.log(JSON.stringify(schedule));
+    if (options.output){
+        console.log('Writing ' + options.output + '…');
+        fs.writeFileSync(options.output, JSON.stringify(schedule, null, '  '));
+    }else{
+        console.log(JSON.stringify(schedule));
+    }
 }
 function getColumn(element){
     var className = element.attr('class'),
