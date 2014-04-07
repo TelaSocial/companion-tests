@@ -3,71 +3,65 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 
     <script src="vendor/jquery-min.js" type="text/javascript"></script>
-    <script src="vendor/JSLINQ.js" type="text/javascript"></script>
     <script type="text/javascript">
 
     $(document).ready(function () { 
+
+        var slots = jsonall[0].slot; 
+
         var dayRange = "2013-07-04";
-        var todayEvents = JSLINQ(jsonall[0].slot).Where(function(item, index) {
-           return item.date == dayRange; 
-        });
+        
+        var eventsByHours = [];
+        var hours = [];
+        for(var key in slots) {
+          var item = slots[key];        
+          if(item.date == dayRange) {
 
-        var collectTime = {};
-        var byUniqueId = {};
+             var fullDate = item.date.split('-'); 
+             var da = parseFloat(fullDate[2]);
+             var mo = parseFloat(fullDate[1]);
+             var ye = parseFloat(fullDate[0]);        
+             var ho = parseFloat(item.hour);
+             var mi = parseFloat(item.minute);
+             var c20 = parseFloat(item.colspan)*20;
 
-        var fixedTime = JSLINQ(todayEvents.items).Where(function(item, index) {
+             var aDate = new Date(parseInt(ye),parseInt(mo+1),parseInt(da));
+             aDate.setHours(ho);
+             aDate.setMinutes(mi);
+             item.getTimeBegin=aDate.getTime();
+             var bDate = new Date(aDate.getTime() + c20*60000);
+             item.getTimeEnd =bDate.getTime();
 
-           item.uniqueKey = Math.random(); // unique key?
-
-           var fullDate = item.date.split('-'); 
-           var da = parseFloat(fullDate[2]);
-           var mo = parseFloat(fullDate[1]);
-           var ye = parseFloat(fullDate[0]);        
-           var ho = parseFloat(item.hour);
-           var mi = parseFloat(item.minute);
-           var c20 = parseFloat(item.colspan)*20;
-           var aDate = new Date(parseInt(ye),parseInt(mo+1),parseInt(da));
-           aDate.setHours(ho);
-           aDate.setMinutes(mi);
-           item.getTimeBegin=aDate.getTime();
-           var bDate = new Date(aDate.getTime() + c20*60000);
-           item.getTimeEnd =bDate.getTime();
-
-           if(!collectTime[""+item.getTimeBegin]) {
-               collectTime[""+item.getTimeBegin]=new Array();
-           }
-           collectTime[""+item.getTimeBegin].push(item.uniqueKey);
-
-           if(!collectTime[""+item.getTimeEnd]) {
-               collectTime[""+item.getTimeEnd]=new Array();
-           }
-           collectTime[""+item.getTimeEnd].push(item.uniqueKey);
-           byUniqueId[item.uniqueKey] = item;
-           return true;
-        });
-
-        var plainCollection = new Array();
-        var c=0;
-        for( item in collectTime ) {
-              plainCollection[c++]={value:item};
-        }
-
-        var sortTest1 = JSLINQ(plainCollection)
-             .OrderBy(function(item){ return item.value; });
+             var key=""+item.getTimeBegin;
+             if(!eventsByHours[key]) {
+                eventsByHours[key] = [];
+             }
+             eventsByHours[key].push(item);
+             hours.push(key);
  
-        for( item in sortTest1.items) {
-           var a = new Date();
-           a.setTime(sortTest1.items[item].value);
-           var ref = 'inner'+parseInt(Math.random()*1000);
-          $('#container').append('<div>'+a.getHours()+':'+a.getMinutes()+'<div id="'+ref+'"></div></div>');
-
-           var curr = collectTime[sortTest1.items[item].value];
-           for(item in curr) {
-            //<p>"+byUniqueId[curr[item]].title+"</p>
-            //alert(ref)
-              $("#"+ref).append("<p>"+byUniqueId[curr[item]].title+"</p>");
+             var key=""+item.getTimeEnd;
+              if(!eventsByHours[key]) {
+                eventsByHours[key] = [];
+              }
+              eventsByHours[key].push(item);
+              hours.push(key);
+ 
            }
+        };
 
+        //console.log(JSON.stringify(hours));
+        hours.sort();
+
+        for( item in hours) {
+           var a = new Date();
+           a.setTime(hours[item]);
+           var ref = 'inner'+parseInt(Math.random()*1000);
+           $('#container').append('<div>'+a.getHours()+':'+a.getMinutes()+'<div id="'+ref+'"></div></div>');
+           var hourCurr = hours[item];
+           for(key in eventsByHours[hourCurr]) {
+              var currEl = eventsByHours[hourCurr][key];
+              $("#"+ref).append("<p>"+currEl.title+"</p>");
+           }
         }
 
      }); 
