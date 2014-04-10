@@ -144,6 +144,7 @@ var onURLLoaded = function(err, $) {
     };
     // console.log(JSON.stringify(zones, null, '  '));
     // console.log(JSON.stringify(areas, null, '  '));
+    console.log(areaElements.length);
     // console.log(JSON.stringify(rooms, null, '  '));
     // console.log(roomElements.length);
     // console.log(JSON.stringify(presenters, null, '  '));
