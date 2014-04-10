@@ -9,8 +9,19 @@
   "author": "Fabricio C Zuardi",
   "license": "MIT",
   "devDependencies": {
+    "cheerio": "git://github.com/cheeriojs/cheerio.git",
+    "htmlparser2": "^3.7.1",
     "nom": "0.0.3",
     "stdio": "^0.1.5",
     "zpad": "^0.5.0"
+  },
+  "jshintConfig": {
+    "globals": {
+      "process": true,
+      "__dirname": true,
+      "console": true,
+      "require": true,
+      "module": true
+    }
   }
 }
