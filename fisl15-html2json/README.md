@@ -11,16 +11,16 @@ npm install
 
 ## Config
 
-Edit the index.js file to toggle between offline and online.
+Edit the .js files to toggle between offline and online.
 
 ## Usage
 
 ```
-node index.js
+node html2json-cheerio.js
 ```
 
 Or to write a file with the resulting JSON:
 
 ```
-node index.js -o your_output_file_path.json
+node html2json-cheerio.js -o your_output_file_path.json
 ```
