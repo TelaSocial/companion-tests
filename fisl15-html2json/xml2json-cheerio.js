@@ -1,5 +1,11 @@
 'use strict';
 
+//THIS CODE IS OUTDATED
+//Please refer to https://github.com/TelaSocial/companion/blob/master/src/scripts/lib/fisl/feed-parser.js 
+//for a more recently working code and https://github.com/TelaSocial/companion/blob/master/src/scripts/gulp-tasks/fisl/index.js
+//for an example of how to fetch and convert using node and cheerio
+
+
 //modules
 var nom = require('nom'),
     cheerio = require('nom/node_modules/cheerio'),
