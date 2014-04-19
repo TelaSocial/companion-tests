@@ -40,7 +40,7 @@ var onURLLoaded = function(err, $) {
         roomElements = $('room'),
         areaElements = $('area'),
         zoneElements = $('zone'),
-        sessions = {},
+        sessions = [],
         people = {},
         presenters = {},
         rooms = {},
@@ -121,17 +121,27 @@ var onURLLoaded = function(err, $) {
             zoneId = slot.attr('zone'),
             areaId = slot.attr('area');
 
-        sessions[slotId] = {
+        sessions.push({
+            id: slotId,
             title: title,
             abstract: abstract,
             presentersId: authorId,
             level: level,
-            start: [startDay, startHour, startMinute].join(' '),
+            start: startDay +
+                    'T' +
+                    startHour +
+                    ':' +
+                    startMinute +
+                    ':00-03:00',
             duration: durationColspan * 20, //minutes
             roomId: roomId,
             zoneId: zoneId,
             areaId: areaId
-        };
+        });
+
+        sessions.sort(function(a, b){
+            return a.start > b.start ? 1 : -1;
+        });
     });
 
 
