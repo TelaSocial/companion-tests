@@ -26,7 +26,7 @@ var gridMaker = {
   evento: null, 
   chunkHourSpace:60,
   ratioForHeight:1.6,
-  ratioForWidth:1.6,
+  ratioForWidth:2.2,
   descricao : new Array(),
   gridCols: 0, 
   gridBuffer: null, 
@@ -173,7 +173,7 @@ var gridMaker = {
     var container=document.createElement('div');
     var cName = 'container_'+Math.random();
     container.setAttribute('id', cName);
-    container.setAttribute('style','height:100%')
+    container.setAttribute('style','height:200%;width:1400px')
     document.getElementById('container').appendChild(container);
     cssWidth = parseInt(parseInt(document.getElementById(cName).offsetWidth-50)/cols);
     cssHeight = parseInt(parseInt(document.getElementById(cName).offsetHeight-50)/cols);
@@ -321,6 +321,7 @@ function doFilter(str) {
            gg-=30;
         } 
         var elMark = '<span style=";color:rgb('+gg+','+gg+','+gg+');margin-right:3px;font-size:'+fontSize+'px">'+el+'</span>';
+        var elMark = '<span style="color:white;padding:.1em">'+el+'</span>';
         fontSize-=1;
         htmlMarkup+=elMark;
     }
