@@ -17,16 +17,23 @@ body {
 
 /*
   background:rgb(70,70,70);
+
   */
+.innerInnerInnerCell { 
+  word-wrap:break-word;
+  width:100px;
+}
+
 .innerInnerCell { 
   margin-top:2px;
-  font-size:13px;
-  padding:2px;
-  background: -moz-linear-gradient( 0deg, rgb(70,70,70), rgb(40,40,40), rgb(40,40,40));
+  padding:10px;
+  font-size:10px;
+  font-family:verdana;
+  background: -moz-linear-gradient( 0deg,  rgb(40,40,40),rgb(70,70,70) );
   height:100%;
-  text-overflow:ellipsis;
-  word-wrap:break-word;
+
 } 
+
 
 .innerNone { 
   background: -moz-linear-gradient( 0deg, rgba(5,5,5,.2),  rgba(255,255,255,0));
@@ -42,6 +49,9 @@ body {
 } 
 
 .innerHeader { 
+   width:50px; 
+
+   overflow:hidden;
 } 
  
 .innerInnerHeader { 
@@ -49,14 +59,10 @@ body {
   padding-left:1em;
   margin-left:2px;
   margin-bottom:2px;
-  background: -moz-linear-gradient( -90deg, rgba(120,120,120,1), rgba(100,100,100,1));
   font-weight:bold;
-  height:50px;
   font-size:18px;
   text-align:center;
-  color:white;
-  border-top-left-radius:20px;
-  border-top-right-radius:20px;
+  color:black;
 } 
 
 .innerInnerCorner { 

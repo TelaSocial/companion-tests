@@ -19,6 +19,7 @@
         var dayRange = "2014-05-08";
         gridMaker.start(slots, dayRange);
 
+
      }); 
 
 var gridMaker = {
@@ -39,6 +40,12 @@ var gridMaker = {
   fixScaleWidth : function (dd) {  
   return parseInt(dd*this.ratioForWidth);
   },
+
+  makeContainer: function () {
+
+
+  },
+
 
   start : function (slots, currentDay) {
 
@@ -135,33 +142,51 @@ var gridMaker = {
         var buffer = [];
 
         for(var i in compressHours) {
-
             for(var j in compressColumns) {
+
+                if(i==0 && j==0) {
+                  for(var ii=0; ii<compressHours.length+1;ii++) {
+                     if(ii==0) {
+                        buffer[ii]= mapCell({type: 'corner'})
+                     } 
+                     else {
+                        buffer[ii]=mapCell({type:'slices', value:compressHours[ii-1]});
+
+                     }
+                  }
+                  for(var jj=0;jj<compressColumns.length+1;jj++) {
+                     //alert((parseInt(jj)+1)*(compressHours.length));
+                        if(jj==0) {
+                        } 
+                        else {
+                           buffer[(parseInt(jj))*(compressHours.length+1)]=mapCell({type:'header', value:compressColumns[jj-1]});
+                        }
+
+                  }
+                } 
+
                 var delta  = parseInt(compressHours[parseInt(i)+1]-compressHours[i])/60000;
-                buffer[parseInt(j)+parseInt(i*(compressColumns.length))]=mapCell({type:'none' , value:delta});
+                buffer[(parseInt(i)+1)+((compressColumns.length)*(parseInt(j)+1))]=mapCell({type:'none' , value:delta});
+
             }
         }
-
         for(var key in slots) {
           var item = slots[key]; 
           if(item.date == currentDay ) {
               var indexForHours = hoursByIndex[item.getTimeBegin];
               var indexForColumn = columnsByIndex[item.room];
-
               for (k in compressHours) {
                 var curr = compressHours[k];
-
                 if (curr >= item.getTimeBegin && curr < item.getTimeEnd) {
-                   buffer[parseInt(indexForColumn*compressHours.length)+parseInt(k)]=item.cellMap;
-                }
+                   buffer[((parseInt(indexForColumn)+1)*(compressHours.length+1))+(parseInt(k)+1)]=item.cellMap;
 
+                }
               }
           }
         }
 
-
         this.gridBuffer = buffer.join("");
-        this.generateDivs(compressHours.length-1);
+        this.generateDivs(compressHours.length);
 
   }, 
 
@@ -176,7 +201,7 @@ var gridMaker = {
     container.setAttribute('style','height:200%;width:1400px')
     document.getElementById('container').appendChild(container);
     cssWidth = parseInt(parseInt(document.getElementById(cName).offsetWidth-50)/cols);
-    cssHeight = parseInt(parseInt(document.getElementById(cName).offsetHeight-50)/cols);
+    cssHeight = parseInt(parseInt(document.getElementById(cName).offsetHeight-650)/cols);
     
 
     var uniqueClassName = 'inner'+parseInt(Math.random()*1000);
@@ -193,7 +218,7 @@ var gridMaker = {
 
         if(probeElement.type=='event') { 
             var el = probeElement.value;
-            $(this).html('<div class="innerInnerCell" onclick="callCalendar()">'+doFilter(el.descricao)+'</div>');
+            $(this).html('<div class="innerInnerCell" onclick="callCalendar()"><div class="innerInnerInnerCell">'+doFilter(el.descricao)+'</div></div>');
             $(this).addClass('inner');
             var delta = probeElement.end-probeElement.begin;
 
@@ -236,7 +261,6 @@ var gridMaker = {
             $(this).addClass('innerNone');
             //alert(delta);
             //$(this).attr("style",'width:'+cssWidth+'px;height:'+these.fixScaleHeight(delta)+'px;');
-
              $(this).attr("style",';width:'+these.fixScaleWidth(delta)+'px;height:'+cssHeight+'px;');
 
              $(this).html('');
@@ -251,8 +275,10 @@ var gridMaker = {
             var localWidth='50px';
             var localHeight='50px';
             var hourSliceId = 'hourSlice_'+Math.random(); 
-            var strHH = ''+Math.floor(parseInt(hour)/60);
-            var strMM = ''+parseInt(hour)%60; 
+            var tempDate = new Date();
+            tempDate.setTime(hour);
+            var strHH = ''+tempDate.getHours();
+            var strMM = ''+tempDate.getMinutes(); 
             if(strMM<10) { strMM+='0'; } 
             var strProposal = strHH+':'+strMM;
 
@@ -270,7 +296,7 @@ var gridMaker = {
         if(probeElement.type == 'header') { 
             var room = probeElement.value;
             $(this).addClass('innerHeader');
-            $(this).attr("style",'width:'+cssWidth+'px;');
+            $(this).attr("style",'width:'+localWidth+'px;');
             $(this).html('<div class="innerInnerHeader">'+room+'</div>');
         } 
 
